@@ -22,7 +22,13 @@ function eventListeners(){ // Tüm event Listenerlar
 function addTodo(e){
     const newTodo = todoInput.value.trim();     //trim baştaki ve sonraki boşlukları siler
 
-    addTodoToUI(newTodo);
+    if(newTodo === ""){
+        showAlert("danger","Lütfen bir todo giriniz..");
+    }
+    else{
+        addTodoToUI(newTodo);
+        showAlert("success","Ekleme işlemi başarili..");
+    }
     //tekrardan syfaya yönlenmesin diye default özelliği yıkma
     e.preventDefault();
 }
@@ -44,4 +50,16 @@ function addTodoToUI(newTodo){  //String değeri list item olarak ekler
     todoList.appendChild(newListItem);
     //Input boşaltma
     todoInput.value="";
+}
+function showAlert(type,message){
+    //Alert oluşturma
+    const newAlert = document.createElement("div");
+    newAlert.className=`alert alert-${type}`;
+    newAlert.textContent = message;
+
+    firstCardBody.appendChild(newAlert);
+    //setTimout ile elementi belli bir süre gösterip yok etme
+    setTimeout(function(){
+        newAlert.remove();
+    },2000);
 }
