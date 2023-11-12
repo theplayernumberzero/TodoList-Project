@@ -17,6 +17,7 @@ eventListeners();   // Sayfa açıldığında element seçimine göre çalışı
 
 function eventListeners(){ // Tüm event Listenerlar
     form.addEventListener("submit",addTodo);    //todo ekleme
+    document.addEventListener("DOMContentLoaded",loadAllTodosToUI);     //Sayfa yüklenince oluşan event listener
 }
 
 function addTodo(e){
@@ -81,4 +82,11 @@ function addTodoToStorage(newTodo){
     todos.push(newTodo);
 
     localStorage.setItem("todos",JSON.stringify(todos));
+}
+function loadAllTodosToUI(){
+    let todos = getTodosFromStorage();
+    
+    todos.forEach(function(todo){
+        addTodoToUI(todo);
+    });
 }
