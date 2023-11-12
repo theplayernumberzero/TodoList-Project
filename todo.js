@@ -27,6 +27,7 @@ function addTodo(e){
     }
     else{
         addTodoToUI(newTodo);
+        addTodoToStorage(newTodo);
         showAlert("success","Ekleme işlemi başarili..");
     }
     //tekrardan syfaya yönlenmesin diye default özelliği yıkma
@@ -62,4 +63,22 @@ function showAlert(type,message){
     setTimeout(function(){
         newAlert.remove();
     },2000);
+}
+//local storage ile bağlantı kurma
+function getTodosFromStorage(){
+    let todos;
+    if(localStorage.getItem("todos") === null){
+        todos = [];
+    }
+    else{
+        todos = JSON.parse(localStorage.getItem("todos"));
+    }
+    return todos;
+}
+//local storage a eleman ekleme
+function addTodoToStorage(newTodo){
+    let todos = getTodosFromStorage();
+    todos.push(newTodo);
+
+    localStorage.setItem("todos",JSON.stringify(todos));
 }
