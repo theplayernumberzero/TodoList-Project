@@ -19,6 +19,7 @@ function eventListeners(){ // Tüm event Listenerlar
     form.addEventListener("submit",addTodo);    //todo ekleme
     document.addEventListener("DOMContentLoaded",loadAllTodosToUI);     //Sayfa yüklenince oluşan event listener
     secondCardBody.addEventListener("click",deleteTodo);
+    filter.addEventListener("keyup",filterTodos);   //filtreleme özelliği
 }
 
 function addTodo(e){
@@ -94,7 +95,7 @@ function loadAllTodosToUI(){
 function deleteTodo(e){
     if(e.target.className === "fa fa-remove"){      //e.target ile nereye basıldığını buluruz.
         e.target.parentElement.parentElement.remove();      //2 yukarı çıkarak seçilen elementi silme
-        deleteFromLocalStorage(e.target.parentElement.parentElement);
+        deleteFromLocalStorage(e.target.parentElement.parentElement.textContent);   //elementin textContenti dizi elemanına eşit ise silinir
         showAlert("success","Todo başarı ile silindi..");
     }  
 }
@@ -106,4 +107,19 @@ function deleteFromLocalStorage(deleteTodo){
         }
     });
     localStorage.setItem("todos",JSON.stringify(todos));    //local storage güncelleme
+}
+function filterTodos(e){
+    const filterValue = e.target.value.toLowerCase();
+    const listItems = document.querySelectorAll(".list-group-item");
+
+    listItems.forEach(function(listItem){
+        const text = listItem.textContent.toLowerCase();
+
+        if(text.indexOf(filterValue) === -1){   //textin içinde filter value geçmiyorsa indexOf -1 değerini verir.
+            listItem.setAttribute("style","display : none !important");     //bootstrapten gelen d-flex display özelliğini baskılar. Önlemel için !important girebilirsin.
+        }
+        else{
+            listItem.setAttribute("style","display : flex");   //filterda karakter silip önceden gözükmeyenin gözükmesini sağlamak için
+        }
+    });
 }
