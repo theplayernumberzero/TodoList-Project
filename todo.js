@@ -18,6 +18,7 @@ eventListeners();   // Sayfa açıldığında element seçimine göre çalışı
 function eventListeners(){ // Tüm event Listenerlar
     form.addEventListener("submit",addTodo);    //todo ekleme
     document.addEventListener("DOMContentLoaded",loadAllTodosToUI);     //Sayfa yüklenince oluşan event listener
+    secondCardBody.addEventListener("click",deleteTodo);
 }
 
 function addTodo(e){
@@ -89,4 +90,10 @@ function loadAllTodosToUI(){
     todos.forEach(function(todo){
         addTodoToUI(todo);
     });
+}
+function deleteTodo(e){
+    if(e.target.className === "fa fa-remove"){      //e.target ile nereye basıldığını buluruz.
+        e.target.parentElement.parentElement.remove();      //2 yukarı çıkarak seçilen elementi silme
+        showAlert("success","Todo başarı ile silindi..");
+    }  
 }
