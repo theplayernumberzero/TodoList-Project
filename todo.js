@@ -94,6 +94,16 @@ function loadAllTodosToUI(){
 function deleteTodo(e){
     if(e.target.className === "fa fa-remove"){      //e.target ile nereye basıldığını buluruz.
         e.target.parentElement.parentElement.remove();      //2 yukarı çıkarak seçilen elementi silme
+        deleteFromLocalStorage(e.target.parentElement.parentElement);
         showAlert("success","Todo başarı ile silindi..");
     }  
+}
+function deleteFromLocalStorage(deleteTodo){
+    let todos = getTodosFromStorage();
+    todos.forEach(function(todo,index){
+        if(todo === deleteTodo){
+            todos.splice(index,1);      //Belirtilen indexten itibaren 1 eleman silinecek
+        }
+    });
+    localStorage.setItem("todos",JSON.stringify(todos));    //local storage güncelleme
 }
